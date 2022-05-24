@@ -41,7 +41,7 @@ jobs:
         if: always() # Pick up events even if the job fails or is canceled.
         
         
-      # 디렉토리 생성
+          # 디렉토리 생성
       - name: Make Directory
         run: mkdir -p deploy
 
@@ -52,10 +52,6 @@ jobs:
       # appspec.yml 파일 복사
       - name: Copy appspec.yml
         run: cp appspec.yml ./deploy
-
-      # script files 복사
-     - name: Copy script
-       run: cp ./scripts/*.sh ./deploy
 
       # 파일 압축
       - name: Make zip file
