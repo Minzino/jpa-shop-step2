@@ -35,8 +35,8 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t jpa-shop-test .
-          docker tag jpa-shop ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
-          docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::}
+          docker tag jpa-shop-test ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
 
       - name: Deploy
         uses: appleboy/ssh-action@master
