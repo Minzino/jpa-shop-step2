@@ -33,7 +33,7 @@ jobs:
       # 도커 빌드(도커 이미지 생성)
       - name: Docker build
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.PASSWORD }}
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t jpa-shop-test .
           docker tag jpa-shop-tag ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::}
