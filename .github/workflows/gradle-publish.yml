@@ -41,7 +41,7 @@ jobs:
         if: always() # Pick up events even if the job fails or is canceled.
         
         
-          # 디렉토리 생성
+      # 디렉토리 생성
       - name: Make Directory
         run: mkdir -p deploy
 
