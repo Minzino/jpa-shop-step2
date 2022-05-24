@@ -35,7 +35,7 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t jpa-shop-test .
-          docker tag jpa-shop-tag ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
+          docker tag jpa-shop ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::}
 
       - name: Deploy
