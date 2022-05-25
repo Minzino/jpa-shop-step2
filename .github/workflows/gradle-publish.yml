@@ -47,7 +47,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
-            docker tag ${{ secrets.DOCKER_USERNAME }}/jps-shop:${GITHUB_SHA::7} jpa-shop-test
+            docker tag ${{ secrets.DOCKER_USERNAME }}/jps-shop:${GITHUB_SHA::7} jpa-shop
             docker stop server
             docker run -d --rm --name server -p 80:8080 jpa-shop
           
