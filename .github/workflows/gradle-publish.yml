@@ -35,7 +35,7 @@ jobs:
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t meenzino/jpa-shop:1.0 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:1.0
 
       - name: Deploy
         uses: appleboy/ssh-action@master
@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: GITHUB_SHA
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/jpa-shop:${GITHUB_SHA::7}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/jpa-shop:1.0
             docker stop server
             docker run -d --rm --name server -p 80:8080 jpa-shop
           
