@@ -55,5 +55,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ap-northeast-2
 
-      - name: CodeDeploy
-        run: aws deploy create-deployment --application-name NAT-test-deploy-group --deployment-group-name NAT-test-autoscaling-group --s3-location bucket=test-instance-init.sh,key=Instance-init.sh,bundleType=sh
+      - name: start CodeDeploy
+        run: aws deploy create-deployment --application-name NAT-test2-deploy-group --deployment-group-name NAT-test2-ec2-deploy-auto-scaling-group --s3-location bucket=test-instance-init.sh,key=Instance-init.sh,bundleType=sh
