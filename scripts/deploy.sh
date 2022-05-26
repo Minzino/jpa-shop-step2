@@ -1,31 +1,14 @@
-#!/usr/bin/env bash
+# 가동중인 awsstudy 도커 중단 및 삭제
+sudo docker ps -a -q --filter "name=test-server" | grep -q . && docker stop test-server && docker rm test-server | true
 
-REPOSITORY=/home/ubuntu/app
+# 기존 이미지 삭제
+sudo docker rmi meenzino/jpa-shop:1.0
 
-echo "> 현재 구동 중인 애플리케이션 pid 확인"
+# 도커허브 이미지 pull
+sudo docker pull meenzino/jpa-shop:1.0
 
-CURRENT_PID=$(ps ax | grep java | awk '{print $1}')
+# 도커 run
+docker run -d -p 80:8080 --name test-server meenzino/jpa-shop:1.0
 
-echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
-
-if [ -z "$CURRENT_PID" ]; then
-  echo "현재 구동 중인 애플리케이션이 없으므로 종료하지 않습니다."
-else
-  echo "> kill -15 $CURRENT_PID"
-  kill -15 $CURRENT_PID
-  sleep 5
-fi
-
-echo "> 새 애플리케이션 배포"
-
-JAR_NAME=$(ls -tr $REPOSITORY/*-SNAPSHOT.jar | tail -n 1)
-
-echo "> JAR NAME: $JAR_NAME"
-
-echo "> $JAR_NAME 에 실행권한 추가"
-
-chmod +x $JAR_NAME
-
-echo "> $JAR_NAME 실행"
-
-nohup java -jar $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+# 사용하지 않는 불필요한 이미지 삭제 -> 현재 컨테이너가 물고 있는 이미지는 삭제되지 않습니다.
+docker rmi -f $(docker images -f "dangling=true" -q) || true
