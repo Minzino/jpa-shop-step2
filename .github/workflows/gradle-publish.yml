@@ -48,5 +48,12 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
 
+      - name: Deploy
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ap-northeast-2
+
       - name: CodeDeploy
         run: aws deploy create-deployment --application-name NAT-test-deploy-group --deployment-group-name NAT-test-autoscaling-group --s3-location bucket=test-instance-init.sh,key=Instance-init.sh,bundleType=sh
