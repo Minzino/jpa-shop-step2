@@ -36,18 +36,6 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t meenzino/jpa-shop:1.0 .
           docker push ${{ secrets.DOCKER_USERNAME }}/jpa-shop:1.0
-
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AWS_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: GITHUB_SHA
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/jpa-shop:1.0
-            docker stop server
-            docker run -d --rm --name server -p 80:8080 jpa-shop
           
 
       - name: action-slack
@@ -59,3 +47,6 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
         if: always() # Pick up events even if the job fails or is canceled.
+
+      - name: CodeDeploy
+        run: aws deploy create-deployment --application-name NAT-test-deploy-group --deployment-group-name NAT-test-autoscaling-group --s3-location bucket=test-instance-init.sh,key=Instance-init.sh,bundleType=sh
